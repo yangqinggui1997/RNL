@@ -8,10 +8,18 @@ const ShowScreen = (props) => {
     const blogPost = state.find((blogPost) => blogPost.id === props.navigation.getParam('id'))
 
     return <View>
-        <Text>{blogPost.title}</Text>
+        <Text style={style.text}><Text style={style.title}>Title:</Text> {blogPost.title}</Text>
+        <Text style={style.text}><Text style={style.title}>Content:</Text> {blogPost.content}</Text>
     </View>
 }
 
-const style = StyleSheet.create({})
+const style = StyleSheet.create({
+    title: {
+        fontWeight: 'bold'
+    },
+    text: {
+        margin: 10
+    }
+})
 
 export default ShowScreen
