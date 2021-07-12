@@ -1,11 +1,11 @@
 
-// import { Search } from '@material-ui/icons';
 import React from 'react'
 import { StyleSheet, Text, TextInput, View, ViewPropTypes } from 'react-native'
+import Icon from 'react-native-ico-material-design';
 
 const SearchBar = (props) => {
     return <View style={style.background}>
-        {/* <Search/> */}
+        <Icon name="searching-magnifying-glass" style={style.iconStyle}/>
         <TextInput style={style.inputType} placeholder="Please input search" value={props.term} onChangeText={props.onTermChange} onEndEditing={props.onTermSubmit} autoCapitalize='none' autoCorrect={false}/>
     </View>
 }
@@ -26,7 +26,6 @@ const style = StyleSheet.create({
         flex: 1
     },
     iconStyle: {
-        fontSize: 35,
         alignSelf: 'center',
         marginHorizontal: 15
     }

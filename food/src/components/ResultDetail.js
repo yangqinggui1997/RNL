@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 
 const ResultDetail = (props) => {
     return <View style={style.container}>
-        <Image style={style.image} source={{uri: props.result.image_url}}/>
+        {props.result.image_url ? <Image style={style.image} source={{uri: props.result.image_url}}/> : <View style={style.image}></View>}
         <Text style={style.name}>{props.result.name}</Text>
         <Text>{props.result.rating} Stars, {props.result.review_count} Reviews</Text>
     </View>

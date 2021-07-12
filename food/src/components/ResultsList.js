@@ -12,6 +12,7 @@ const ResultsList = (props) => {
             data={props.results}
             keyExtractor={result => result.id}
             renderItem={({item, index}) => {
+                 
                 return <TouchableOpacity onPress={() => props.navigation.navigate('ResultShow', {id: item.id})}>
                     <ResultDetail result={item}/>
                 </TouchableOpacity>

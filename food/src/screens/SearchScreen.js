@@ -1,6 +1,6 @@
 
 import React, {useState} from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import ResultsList from '../components/ResultsList'
 import SearchBar from '../components/SearchBar'
 import useResults from '../hooks/useResults'
@@ -13,7 +13,7 @@ const SearchScreen = (props) => {
             return result.price === price
         })
     }
-    return <View style={{marginLeft: 10, marginRight: 10}}>
+    return <View style={{marginLeft: 10, marginRight: 10, flex: 1}}>
         <SearchBar term={term} onTermChange={setTerm} onTermSubmit={() => searchApi(term)}/>
         {errorMessage ? <Text>{errorMessage}</Text> : <Text>We have found {results.length} results</Text>}
         <ScrollView>
@@ -21,6 +21,7 @@ const SearchScreen = (props) => {
             <ResultsList navigation={props.navigation} results={filterResultsByPrice('$$')} title="Bit Pricier"/>
             <ResultsList navigation={props.navigation} results={filterResultsByPrice('$$$')} title="Big Spender"/>
         </ScrollView>
+        
     </View>
 }
 

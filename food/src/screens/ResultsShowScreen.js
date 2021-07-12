@@ -21,7 +21,7 @@ const ResultsShowScreen = (props) => {
             data={result.photos}
             keyExtractor={(photo) => photo}
             renderItem={({item, index}) => {
-                return <Image style={style.image} source={{uri: item}}/>
+                return item ? <Image style={style.image} source={{uri: item}}/> : null
             }}
         />
     </View>
