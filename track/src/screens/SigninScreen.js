@@ -2,7 +2,7 @@ import React from 'react'
 import {View, StyleSheet, Text} from 'react-native'
 
 const SigninScreen = () => {
-    return <View style={{fontSize: 48}} >SigninScreen</View>
+    return <View style={{fontSize: 48}} ><Text>SigninScreen</Text></View>
 }
 
 const styles = StyleSheet.create({})
