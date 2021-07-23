@@ -4,6 +4,7 @@ import { Context as AuthContext} from '../context/AuthContext'
 import Spacer from '../components/Spacer'
 import { Button, Text } from 'react-native-elements'
 import { SafeAreaView } from 'react-navigation'
+import Icon from 'react-native-ico-material-design'
 
 const AccountScreen = () => {
     const {signout} = useContext(AuthContext)
@@ -15,7 +16,7 @@ const AccountScreen = () => {
             </Spacer>
         </SafeAreaView>
 }
-
+  
 const styles = StyleSheet.create({})
 
 export default AccountScreen

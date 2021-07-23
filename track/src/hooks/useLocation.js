@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import RNLocation from 'react-native-location'
 
-const tenMetersWithDegrees = 0.0001;
-var watchPositionAsync = null;
+const tenMetersWithDegrees = 0.0001
+
 const getLocation = increment => {
   return {
     timestamp: 10000000,
@@ -15,43 +15,54 @@ const getLocation = increment => {
       longitude: -122.0312186 + increment * tenMetersWithDegrees,
       latitude: 37.33233141 + increment * tenMetersWithDegrees
     }
-  };
-};
+  }
+}
 
-export default (shouldTrack, callback) => {
+let counter = 0;
+export default (shouldTrack, callback, state, unreset) => {
     const [err, setErr] = useState('')
 
-    const startWatching = () => {
-      RNLocation.requestPermission({
-        ios: 'whenInUse',
-        android: {
-          detail: 'fine',
-          rationale: {
-            title: 'We need to access your location',
-            message: 'We use your location to show where you are on the map',
-            buttonPositive: 'OK',
-            buttonNegative: 'Cancel',
-          },
-        },
-      }).then(granted => {
-        if (granted) {
-          var counter = {count: 0};
-          watchPositionAsync = setInterval(() => {
-            callback((getLocation(counter.count)))
-            counter.count++;
-        }, 1500);
-          setErr('');
-        } else setErr('Location permission not granted');
-      });
-    };
     useEffect(() => {
-      if (shouldTrack) startWatching();
-      else clearInterval(watchPositionAsync);
+      let watchPositionAsync;
+      
+      const startWatching = () => {
+        RNLocation.requestPermission({
+          ios: 'whenInUse',
+          android: {
+            detail: 'fine',
+            rationale: {
+              title: 'We need to access your location',
+              message: 'We use your location to show where you are on the map',
+              buttonPositive: 'OK',
+              buttonNegative: 'Cancel',
+            },
+          },
+        }).then(granted => {
+          if (granted) {
+            if(state.reset)
+            {
+              counter = 0
+              unreset()
+            }
+            watchPositionAsync = setInterval(() => {
+                callback(getLocation(counter))
+                counter++
+            }, 1500)
+            setErr('')
+          } else{
+            setErr('Location permission not granted')
+          } 
+        })
+      };
+      if (shouldTrack)
+        startWatching()
+      else if(watchPositionAsync)
+        clearInterval(watchPositionAsync)
 
       return () => {
-        if (!shouldTrack)
-            clearInterval(watchPositionAsync);
+        if (watchPositionAsync)
+          clearInterval(watchPositionAsync)
       }
-    }, [shouldTrack]);
+    }, [shouldTrack, callback])
     return [err]
 }

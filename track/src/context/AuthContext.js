@@ -22,10 +22,14 @@ const signup = (dispatch) => {
     return async (props) => {
         try
         {
-            const response = await trackAPI.post('/signup', {email: props.email, password: props.password})
-            await AsyncStorage.setItem('token', response.data.token)
-            dispatch({type: 'signin', payload: response.data.token})
-            navigate('TrackList')
+            const response = await trackAPI.post('/signup', {email: props.email, password: props.password}).catch(error => console.log(error))
+            if(response.status === 200)
+            {
+                await AsyncStorage.setItem('token', response.data.token)
+                dispatch({type: 'signin', payload: response.data.token})
+                navigate('TrackList')
+                console.log("Register success!");
+            }
         }
         catch(err)
         {
@@ -38,10 +42,14 @@ const signin = (dispatch) => {
     return async (props) => {
         try
         {
-            const response = await trackAPI.post('/signin', {email: props.email, password: props.password})
-            await AsyncStorage.setItem('token', response.data.token)
-            dispatch({type: 'signin', payload: response.data.token})
-            navigate('TrackList')
+            const response = await trackAPI.post('/signin', {email: props.email, password: props.password}).catch(error => console.log(error))
+            if(response.status === 200)
+            {
+                await AsyncStorage.setItem('token', response.data.token)
+                dispatch({type: 'signin', payload: response.data.token})
+                navigate('TrackList')
+                console.log("Welcome back!");
+            }
         }
         catch(err)
         {

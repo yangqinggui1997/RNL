@@ -4,7 +4,7 @@ import MapView, { Circle, Polygon } from 'react-native-maps'
 import { Context as LocationContext } from '../context/LocationContext'
 
 const Map = () => {
-    const { state: { currentLocation } } = useContext(LocationContext)
+    const { state: { currentLocation, locations, totalLocationSlices } } = useContext(LocationContext)
     if(!currentLocation) {
         return <ActivityIndicator size="large" style={{marginTop: 200}}/>
     }
@@ -29,13 +29,27 @@ const Map = () => {
             longitudeDelta: 0.01
         }}
     >
-        {/* <Polygon coordinates={points}/> */}
         <Circle 
             center={currentLocation.coords}
             radius={30}
             strokeColor="rgba(158, 158, 255, 1.0)"
-            fillColor="rgba(158, 158, 255, 0.3)"
+            fillColor="red"
+            zIndex={99999}
         />
+        {
+            locations.length
+            ?
+            <Polygon key={totalLocationSlices.length + 1} coordinates={locations.map(loc => loc.coords)}/>
+            :
+            null
+        }
+        {
+            totalLocationSlices.length 
+            ?
+            totalLocationSlices.map((locations, index) => <Polygon key={index} coordinates={locations.map(loc => loc.coords)}/>)
+            : null
+        }
+        
     </MapView>
 }
 

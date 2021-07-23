@@ -6,13 +6,29 @@ const locationReducer = (state, action) => {
         case 'add_current_location':
             return {...state, currentLocation: action.payload}
         case 'start_recording': 
-            return {...state, recording: true}
+            return {...state, locations: [], recording: true, reset: false}
         case 'stop_recording': 
-            return {...state, recording: false}
+            return {...state, totalLocationSlices: [...state.totalLocationSlices, state.locations], recording: false}
         case 'add_location':
             return {...state, locations: [...state.locations, action.payload]}
         case 'change_name':
             return {...state, name: action.payload}
+        case 'reset':
+            return {...state, totalLocationSlices: [], locations: [], name: '', counter: 0, recording: false, reset: true, currentLocation: {
+                timestamp: 10000000,
+                coords: {
+                  speed: 0,
+                  heading: 0,
+                  accuracy: 5,
+                  altitudeAccuracy: 5,
+                  altitude: 5,
+                  longitude: -122.0312186,
+                  latitude: 37.33233141
+                }
+              }
+            }
+        case 'unreset': 
+            return {...state, reset: false}
         default:
             return state;
     }
@@ -34,11 +50,22 @@ const addLocation = dispatch => (location, recording) => {
         dispatch({type: "add_location", payload: location})
 }
 
+const reset = dispatch => () => {
+    dispatch({type: 'reset'})
+}
+
+const unreset = dispatch => () => {
+    dispatch({type: 'unreset'})
+}
+
 export const {Context, Provider} = createDataContext(locationReducer,{
-    startRecording, stopRecording, addLocation, changeName
+    startRecording, stopRecording, addLocation, changeName, reset, unreset
 },{
     name: '',
     recording: false,
+    reset: false,
     locations: [],
-    currentLocation: null
+    currentLocation: null,
+    counter: 0,
+    totalLocationSlices: []
 })
